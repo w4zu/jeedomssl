@@ -1,6 +1,9 @@
 #!/bin/bash
-#Usage bash jeedomssl.sh jeedom.domaine.fr monemail@pourletsencrypt.com 
+# Usage bash jeedomssl.sh jeedom.domaine.fr monemail@pourletsencrypt.com 
 # Scripted By w4zu
+# Version : 0.1
+# Twitter : https://twitter.com/w4zu
+# Tested on Debian 9
 ssldir="/root/ssl/letsencrypt"
 workdir="$ssldir/work"
 configdir="$ssldir/etc"
