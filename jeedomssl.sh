@@ -122,8 +122,7 @@ cat << EOF > $myvhost
 <VirtualHost *:443>
 
     ServerAdmin postmaster@$1
-    ServerName www.$1
-    ServerAlias $1
+    ServerName $1
     CustomLog /var/www/html/log/$1_access.ssl.log combined
     ErrorLog  /var/www/html/log/$1_error.ssl.log
     LogLevel warn
