@@ -8,6 +8,7 @@ Il faut executer le script en root.
 
 ## Utilisation  : 
 ``` bash jeedomssl.sh jeedom.youdomain.co youaddress@email.mail```
+A executer en root 
 
 ## Le script fait ceci (dans l'ordre): 
 * Vérifie que la commande lancée (bash jeedomssl.sh jeedom.ledomaine.fr  votremail@mail.com)
@@ -34,6 +35,7 @@ Tested with debian 9 after fresh install.
 
 ## How to : 
 ``` bash jeedomssl.sh jeedom.youdomain.co youaddress@email.mail```
+Execute on root user
 
 * Check that the command launched (bash jeedomssl.sh jeedom.ledomaine.fr youremail@mail.com)
 * Install tools net-tools and dnsutils
