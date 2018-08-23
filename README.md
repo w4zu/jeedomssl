@@ -2,7 +2,7 @@
 
 FRENCH : 
 
-Il s'agit d'un script pour ajouter let's encrypt sur votre installation jeedom.
+Il s'agit d'un script pour ajouter let's encrypt sur votre installation jeedom sous apache uniquement (pas sur nginx).
 Tester sur debian9.
 Il faut executer le script en root.
 
@@ -28,7 +28,7 @@ A executer en root
 
 ENGLISH  : 
 
-Its a script for adding let's encrypt certificat in your DIY Jeedom.
+Its a script for adding let's encrypt certificat in your DIY Jeedom on apache not in nginx.
 
 Tested with debian 9 after fresh install.
 
