@@ -1,9 +1,9 @@
 # jeedomssl
-
+English below
 FRENCH : 
 
 Il s'agit d'un script pour ajouter let's encrypt sur votre installation jeedom sous apache uniquement (pas sur nginx).
-Tester sur debian9.
+Tester sur debian 9.
 Il faut executer le script en root.
 
 ## Utilisation  : 
@@ -23,6 +23,20 @@ A executer en root
 * Création du vhost SSL
 * Ajoute une cron pour le renew du certificat
 * Vérifie la configuration apache
+
+## Prérequis 
+Votre box jeedom doit avoir un accès internet ainsi que les ports 80 et 443 NATé depuis votre modem vers votre jeedom.
+Pour naté les ports : 
+
+[Sur livebox :](https://assistance.orange.fr/livebox-modem/toutes-les-livebox-et-modems/installer-et-utiliser/piloter-et-parametrer-votre-materiel/le-parametrage-avance-reseau-nat-pat-ip/configurer-des-regles-nat-pat/livebox-2-configurer-les-regles-nat-pour-l-utilisation-d-un-jeu-ou-d-une-application-serveur_18998-19118)
+
+[Sur Box SFR NB6 :](https://assistance.sfr.fr/internet-et-box/box-nb6/heberger-site-box.html)
+
+[Sur Freebox V6 :](https://www.cartelectronic.fr/blog/?p=2167)
+
+[Sur Freebox mini 4K :](http://supertos.free.fr/supertos.php?page=1688)
+
+[Sur Freeboc V5/Crystal :](http://supertos.free.fr/supertos.php?page=1686)
 
 
 
