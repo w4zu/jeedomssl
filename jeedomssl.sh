@@ -14,7 +14,7 @@ domaine="$1"
 myvhost="/etc/apache2/sites-enabled/$1.ssl.conf"
 admin_mail="$2"
 croncertbot=/etc/cron.d/certbot
-fichierdelog="/var/log/apache/log_create_ssl.txt"
+fichierdelog="/var/log/log_create_ssl.txt"
 #Logging is only for debug
 touch $fichierdelog
 echo "------ `date -u` ---BEGIN---" >> $fichierdelog
