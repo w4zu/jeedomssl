@@ -1,7 +1,7 @@
 #!/bin/bash
 # Usage bash jeedomssl.sh jeedom.domaine.fr monemail@pourletsencrypt.com 
 # Scripted By w4zu
-# Version : 0.1
+# Version : 0.2
 # Twitter : https://twitter.com/w4zu
 # Tested on Debian 9
 ssldir="/root/ssl/letsencrypt"
@@ -13,6 +13,11 @@ mydocroot="/var/www/html"
 domaine="$1"
 myvhost="/etc/apache2/sites-enabled/$1.ssl.conf"
 admin_mail="$2"
+croncertbot=/etc/cron.d/certbot
+fichierdelog="/var/log/apache/log_create_ssl.txt"
+#Logging is only for debug
+touch $fichierdelog
+echo "------ `date -u` ---BEGIN---" >> $fichierdelog
 #Check domaine
 if [ -z "$domaine" ]
 then 
@@ -31,7 +36,7 @@ fi
 #installation net-tool
 apt install net-tools
 apt install dnsutils
-#Vérification correspondance IP/DOMAINE
+#Verification of correspondence IP/DOMAINE
 dig $1 +short
 echo "Merci de recopier l'ip ci-dessus"
 read "diginfo"
@@ -53,14 +58,14 @@ then
 else
     echo "ok"
 fi
-#Installation Certbot
+#Certbot-auto install
 a2enmod ssl
 /etc/init.d/apache2 reload
 wget https://dl.eff.org/certbot-auto
 chmod a+x certbot-auto
 mv certbot-auto /usr/local/bin/
 /usr/local/bin/certbot-auto --noninteractive --os-packages-only
-#Création_Vérification directory lets encrypt
+#Create directory for Lets encrypt
 if [ -d "$ssldir" ]
 then 
 	echo $ssldir
@@ -97,7 +102,7 @@ else
     /bin/mkdir -p $wellknown
     /bin/chown www-data:www-data $wellknown
 fi
-#Installation certificat 
+#Installing certificate
 if [ -d "$mydocroot" ]
 then
 /usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
@@ -108,7 +113,7 @@ else
     /usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
 fi
 sleep 2
-#Creation Vhost
+#Create Vhost
 if [ -f "$myvhost" ]
 then
     echo "vhost already exist ! bye"
@@ -149,12 +154,22 @@ cat << EOF > $myvhost
 EOF
 /bin/chown www-data:www-data $myvhost
 
-#Ajout certbot-auto renew dans crontab utilisateur
-echo "0 0 * * 0 /usr/local/bin/certbot-auto renew --force-renewal" >> /etc/cron.d/certbot
+#Add crontab for certbot-auto
+if [ -f "$croncertbot" ]
+then 
+    echo "crontab OK"
+else
+    echo "0 0 * * 0 /usr/local/bin/certbot-auto renew --force-renewal" >> /etc/cron.d/certbot
+fi
 /usr/sbin/apache2ctl configtest
 echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
 echo "||||||||||||||||||||||||||||||||||||"
-echo "Si Warning: ou Syntax Non OK ne pas redemarrer le service apache."
-echo "Si Syntax OK uniquement vous pouvez redemarrer le service apache."
-echo "pour redemarrer apache /etc/init.d/apache2 restart"
+echo "If Warning: or Syntax not OK do not restart the apache service."
+echo "If Syntax OK only you can restart the apache service."
+echo "If The SSLCertificateChainFile directive (sss.conf) is deprecated IS NOT a problem"
+echo "To restart apache /etc/init.d/apache2 restart"
 fi
+echo "Admin mail ? $admin_mail >> $fichierdelog
+echo "Wellknow ? $wellknown >> $fichierdelog
+echo "Domain name ? $domaine" >> $fichierdelog
+echo "------ `date -u` ---END---" >> $fichierdelog
