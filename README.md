@@ -64,6 +64,8 @@ Execute on root user
 * Adds a cron for the certificate renew
 * Check apache configuration
 
+## Prerequisites
+Your jeedom box must have internet access as well as ports 80 and 443 NAT from your modem to your jeedom box. 
 
 See you
 w4zu.
