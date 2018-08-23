@@ -4,11 +4,11 @@ FRENCH :
 
 Il s'agit d'un script pour ajouter let's encrypt sur votre installation jeedom sous apache uniquement (pas sur nginx).
 Tester sur debian 9.
-Il faut executer le script en root.
+Il faut exécuter le script en root.
 
 ## Utilisation  : 
 ``` bash jeedomssl.sh jeedom.youdomain.co youaddress@email.mail```
-A executer en root 
+A exécuter en root 
 
 ## Le script fait ceci (dans l'ordre): 
 * Vérifie que la commande lancée (bash jeedomssl.sh jeedom.ledomaine.fr  votremail@mail.com)
@@ -38,7 +38,7 @@ Pour naté les ports :
 
 [Sur Freeboc V5/Crystal :](http://supertos.free.fr/supertos.php?page=1686)
 
-
+Pour une plus grande efficacité, merci de ne pas utiliser les domaines freeboxos, synology.me etc.. vous pouvez vous procurer un domaine .ovh pour 1,19 € TTC la première année puis 3,59 € TTC pour une année suivante.[ICI](https://www.ovh.com/fr/domaines/dotovh.xml)
 
 ENGLISH  : 
 
@@ -66,6 +66,9 @@ Execute on root user
 
 ## Prerequisites
 Your jeedom box must have internet access as well as ports 80 and 443 NAT from your modem to your jeedom box. 
+
+For greater efficiency, please do not use freeboxos domains, synology.me etc... you can get a domain .ovh for 1.19 € TTC the first year then 3.59 € TTC for a following year.[HERE](https://www.ovh.com/fr/domaines/dotovh.xml)
+
 
 See you
 w4zu.
