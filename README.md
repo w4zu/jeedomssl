@@ -25,7 +25,7 @@ A executer en root
 * Vérifie la configuration apache
 
 ## Prérequis 
-Votre box jeedom doit avoir un accès internet ainsi que les ports 80 et 443 NATé depuis votre modem vers votre jeedom.
+Votre box jeedom doit avoir un accès internet ainsi que les ports 80 et 443 NATé depuis votre modem vers votre box jeedom.
 Pour naté les ports : 
 
 [Sur livebox :](https://assistance.orange.fr/livebox-modem/toutes-les-livebox-et-modems/installer-et-utiliser/piloter-et-parametrer-votre-materiel/le-parametrage-avance-reseau-nat-pat-ip/configurer-des-regles-nat-pat/livebox-2-configurer-les-regles-nat-pour-l-utilisation-d-un-jeu-ou-d-une-application-serveur_18998-19118)
