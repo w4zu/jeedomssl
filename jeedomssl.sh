@@ -135,8 +135,7 @@ cat << EOF > $myvhost
     DocumentRoot /var/www/html
 
     SSLEngine on
-    SSLCertificateFile /root/ssl/letsencrypt/etc/live/$1/cert.pem
-    SSLCertificateChainFile /root/ssl/letsencrypt/etc/live/$1/chain.pem
+    SSLCertificateFile /root/ssl/letsencrypt/etc/live/$1/fullchain.pem
     SSLCertificateKeyFile /root/ssl/letsencrypt/etc/live/$1/privkey.pem
 
     <Directory "/var/www/html">
@@ -146,7 +145,7 @@ cat << EOF > $myvhost
         deny from all
         allow from all
     </Directory>
-
+	Include /etc/letsencrypt/options-ssl-apache.conf
     ServerSignature Off
 
 </VirtualHost>
