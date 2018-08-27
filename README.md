@@ -1,5 +1,6 @@
 # jeedomssl
 English below
+
 FRENCH : 
 
 Il s'agit d'un script pour ajouter let's encrypt sur votre installation jeedom sous apache uniquement (pas sur nginx).
