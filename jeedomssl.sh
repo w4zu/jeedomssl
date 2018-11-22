@@ -106,13 +106,13 @@ fi
 if [ -d "$mydocroot" ]
 then
 #Uncomment if doesnt work#/usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
-/usr/local/bin/certbot-auto --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
+     /usr/local/bin/certbot-auto --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
 else
     /bin/mkdir -p $mydocroot
     echo '<?php echo "generatedbyvhostgenerator"; ?>' >> $mydocroot/index.php
     /bin/chown www-data:www-data $mydocroot
 #Uncomment if doesnt work#/usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
-/usr/local/bin/certbot-auto --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
+    /usr/local/bin/certbot-auto --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
 fi
 sleep 2
 #Create Vhost
