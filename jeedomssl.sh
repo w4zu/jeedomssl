@@ -1,7 +1,7 @@
 #!/bin/bash
 # Usage bash jeedomssl.sh jeedom.domaine.fr monemail@pourletsencrypt.com 
 # Scripted By w4zu
-# Version : 0.2
+# Version : 0.3
 # Twitter : https://twitter.com/w4zu
 # Tested on Debian 9
 ssldir="/root/ssl/letsencrypt"
@@ -105,12 +105,14 @@ fi
 #Installing certificate
 if [ -d "$mydocroot" ]
 then
-/usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
+#Uncomment if doesnt work#/usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
+/usr/local/bin/certbot-auto --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
 else
     /bin/mkdir -p $mydocroot
     echo '<?php echo "generatedbyvhostgenerator"; ?>' >> $mydocroot/index.php
     /bin/chown www-data:www-data $mydocroot
-    /usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
+#Uncomment if doesnt work#/usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
+/usr/local/bin/certbot-auto --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
 fi
 sleep 2
 #Create Vhost
