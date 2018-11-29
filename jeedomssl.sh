@@ -64,7 +64,6 @@ a2enmod ssl
 wget https://dl.eff.org/certbot-auto
 chmod a+x certbot-auto
 mv certbot-auto /usr/local/bin/
-/usr/local/bin/certbot-auto --noninteractive 
 #Create directory for Lets encrypt
 if [ -d "$ssldir" ]
 then 
