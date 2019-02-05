@@ -34,8 +34,7 @@ else
     echo "ok"
 fi
 #installation net-tool
-apt install net-tools
-apt install dnsutils
+sudo apt install net-tools dnsutils
 #Verification of correspondence IP/DOMAINE
 dig $1 +short
 echo "Merci de recopier l'ip ci-dessus"
@@ -55,6 +54,7 @@ echo $?
 if [ "$?" -eq "1" ]
 then
     echo "votre jeedom n'ecoute pas sur le port 80, c'est obligatoire pour la validation let's encrypt"
+    exit 4
 else
     echo "ok"
 fi
@@ -118,7 +118,7 @@ sleep 2
 if [ -f "$myvhost" ]
 then
     echo "vhost already exist ! bye"
-    exit 3
+    exit 5
 else
 
 /usr/bin/touch $myvhost
@@ -159,7 +159,7 @@ if [ -f "$croncertbot" ]
 then 
     echo "crontab OK"
 else
-    echo "0 0 * * 0 /usr/local/bin/certbot-auto renew --force-renewal" >> /etc/cron.d/certbot
+    echo "0 0 * * 0 /usr/local/bin/certbot-auto renew" >> /etc/cron.d/certbot
 fi
 /usr/sbin/apache2ctl configtest
 echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
