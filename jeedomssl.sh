@@ -1,9 +1,9 @@
 #!/bin/bash
 # Usage bash jeedomssl.sh jeedom.domaine.fr monemail@pourletsencrypt.com 
 # Scripted By w4zu
-# Version : 0.3
+# Version : 0.4
 # Twitter : https://twitter.com/w4zu
-# Tested on Debian 9
+# Tested on Debian 9,10
 ssldir="/root/ssl/letsencrypt"
 workdir="$ssldir/work"
 configdir="$ssldir/etc"
@@ -33,8 +33,8 @@ then
 else
     echo "ok"
 fi
-#installation net-tool
-sudo apt install net-tools dnsutils
+#installation net-tool & certbot
+sudo apt install net-tools dnsutils libwww-perl libapache2-mod-fcgid apache2 certbot python3-certbot-apache
 #Verification of correspondence IP/DOMAINE
 dig $1 +short
 echo "Merci de recopier l'ip ci-dessus"
@@ -61,9 +61,6 @@ fi
 #Certbot-auto install
 a2enmod ssl
 /etc/init.d/apache2 reload
-wget https://dl.eff.org/certbot-auto
-chmod a+x certbot-auto
-mv certbot-auto /usr/local/bin/
 #Create directory for Lets encrypt
 if [ -d "$ssldir" ]
 then 
@@ -104,14 +101,14 @@ fi
 #Installing certificate
 if [ -d "$mydocroot" ]
 then
-#Uncomment if doesnt work#/usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
-     /usr/local/bin/certbot-auto --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
+#Uncomment if doesnt work#/usr/bin/certbot certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
+     /usr/bin/certbot --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
 else
     /bin/mkdir -p $mydocroot
     echo '<?php echo "generatedbyvhostgenerator"; ?>' >> $mydocroot/index.php
     /bin/chown www-data:www-data $mydocroot
-#Uncomment if doesnt work#/usr/local/bin/certbot-auto certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
-    /usr/local/bin/certbot-auto --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
+#Uncomment if doesnt work#/usr/bin/certbot certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
+    /usr/bin/certbot --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
 fi
 sleep 2
 #Create Vhost
