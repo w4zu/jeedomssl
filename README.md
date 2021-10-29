@@ -4,7 +4,7 @@ English below
 FRENCH : 
 
 Il s'agit d'un script pour ajouter let's encrypt sur votre installation jeedom sous apache uniquement (pas sur nginx).
-Tester sur debian 9.
+Tester sur debian 9,10.
 Il faut exécuter le script en root.
 
 ## Utilisation  : 
@@ -13,7 +13,7 @@ A exécuter en root
 
 ## Le script fait ceci (dans l'ordre): 
 * Vérifie que la commande lancée (bash jeedomssl.sh jeedom.ledomaine.fr  votremail@mail.com)
-* Installation outils net-tools et dnsutils
+* Installation outils net-tools et dnsutils, certbot
 * Vérifie que le domaine pointe bien vers l'ip de votre modem
 * Vérifie que http est bien en écoute sur le port 80
 * ajoute le mod ssl
