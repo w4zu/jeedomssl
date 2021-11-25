@@ -1,4 +1,8 @@
 # jeedomssl
+/!\ Ne fonctionne plus
+/!\ No longer working
+
+
 English below
 
 FRENCH : 
