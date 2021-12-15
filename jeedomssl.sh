@@ -1,10 +1,11 @@
 #!/bin/bash
 # Usage bash jeedomssl.sh jeedom.domaine.fr monemail@pourletsencrypt.com 
 # Scripted By w4zu
-# Version : 0.4
+# Version : 0.5
 # Twitter : https://twitter.com/w4zu
-# Tested on Debian 9,10
-ssldir="/root/ssl/letsencrypt"
+# Tested on Debian 9,10,11
+# Also today debian 11 is not really good for jeedom.
+#ssldir="/root/ssl/letsencrypt"
 workdir="$ssldir/work"
 configdir="$ssldir/etc"
 logsdir="$ssldir/logs"
@@ -58,17 +59,8 @@ then
 else
     echo "ok"
 fi
-#Certbot-auto install
 a2enmod ssl
 /etc/init.d/apache2 reload
-#Create directory for Lets encrypt
-if [ -d "$ssldir" ]
-then 
-	echo $ssldir
-	echo "directory exist !"
-else 
-	/bin/mkdir -p $ssldir
-fi
 if [ -d "$workdir" ]
 then 
 	echo $workdir
@@ -98,20 +90,7 @@ else
     /bin/mkdir -p $wellknown
     /bin/chown www-data:www-data $wellknown
 fi
-#Installing certificate
-if [ -d "$mydocroot" ]
-then
-#Uncomment if doesnt work#/usr/bin/certbot certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
-     /usr/bin/certbot --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
-else
-    /bin/mkdir -p $mydocroot
-    echo '<?php echo "generatedbyvhostgenerator"; ?>' >> $mydocroot/index.php
-    /bin/chown www-data:www-data $mydocroot
-#Uncomment if doesnt work#/usr/bin/certbot certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
-    /usr/bin/certbot --agree-tos --email=$admin_mail --webroot -w $mydocroot -d $domaine
-fi
-sleep 2
-#Create Vhost
+
 if [ -f "$myvhost" ]
 then
     echo "vhost already exist ! bye"
@@ -121,21 +100,13 @@ else
 /usr/bin/touch $myvhost
 
 cat << EOF > $myvhost
-
-<VirtualHost *:443>
-
+<VirtualHost *:80>
     ServerAdmin postmaster@$1
     ServerName $1
     CustomLog /var/www/html/log/$1_access.ssl.log combined
     ErrorLog  /var/www/html/log/$1_error.ssl.log
     LogLevel warn
-
     DocumentRoot /var/www/html
-
-    SSLEngine on
-    SSLCertificateFile /root/ssl/letsencrypt/etc/live/$1/fullchain.pem
-    SSLCertificateKeyFile /root/ssl/letsencrypt/etc/live/$1/privkey.pem
-
     <Directory "/var/www/html">
         Options FollowSymLinks MultiViews
         AllowOverride All
@@ -143,27 +114,38 @@ cat << EOF > $myvhost
         deny from all
         allow from all
     </Directory>
-	Include /etc/letsencrypt/options-ssl-apache.conf
+#       Include /etc/letsencrypt/options-ssl-apache.conf
     ServerSignature Off
-
 </VirtualHost>
-
 EOF
 /bin/chown www-data:www-data $myvhost
-
+service apache2 reload
+#Installing certificate
+if [ -d "$mydocroot" ]
+then
+#Uncomment if doesnt work#/usr/bin/certbot certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
+     /usr/bin/certbot --agree-tos --email=$admin_mail -d $domaine --redirect
+else
+    /bin/mkdir -p $mydocroot
+    echo '<?php echo "generatedbyvhostgenerator"; ?>' >> $mydocroot/index.php
+    /bin/chown www-data:www-data $mydocroot
+#Uncomment if doesnt work#/usr/bin/certbot certonly --agree-tos --email=$admin_mail --work-dir=$workdir --logs-dir=$logsdir --config-dir=$configdir --webroot -w $mydocroot -d $domaine
+    /usr/bin/certbot --agree-tos --email=$admin_mail -d $domaine --redirect
+fi
+sleep 2
 #Add crontab for certbot-auto
 if [ -f "$croncertbot" ]
 then 
     echo "crontab OK"
 else
-    echo "0 0 * * 0 /usr/local/bin/certbot-auto renew" >> /etc/cron.d/certbot
+    echo "0 0 * * 0 /usr/bin/certbot -q renew" >> /etc/cron.d/certbot
 fi
 /usr/sbin/apache2ctl configtest
 echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
 echo "||||||||||||||||||||||||||||||||||||"
 echo "If Warning: or Syntax not OK do not restart the apache service."
 echo "If Syntax OK only you can restart the apache service."
-echo "If The SSLCertificateChainFile directive (sss.conf) is deprecated IS NOT a problem"
+echo "If The SSLCertificateChainFile directive (ssl.conf) is deprecated IS NOT a problem"
 echo "To restart apache /etc/init.d/apache2 restart"
 fi
 echo "Admin mail ? $admin_mail >> $fichierdelog
